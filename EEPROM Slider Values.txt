@@ -1,0 +1,16 @@
+EEPROM Slider Values
+
+s20
+S20
+i1
+I1
+j1
+o-5
+O1
+H2
+b18
+B5000
+X200
+q4000
+Q3000
+w3500
