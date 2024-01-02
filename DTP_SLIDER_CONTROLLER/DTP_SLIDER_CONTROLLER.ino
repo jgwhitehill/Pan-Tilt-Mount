@@ -3,18 +3,21 @@
  #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
 #endif
 
-#include <AltSoftSerial.h>
-AltSoftSerial BTSerial; 
- 
+//#include <AltSoftSerial.h>
+//AltSoftSerial BTSerial; 
+
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(8, 9); // RX | TX
+
 char c=' ';
 boolean NL = true;
 
-int input10Pin = A1; 	 // choose the pin for the LED
+int input10Pin = A1; 
 int input9Pin = 12;
 int input8Pin = 7;
 int input7Pin = 4;
 int input6Pin = 11;
-int input5Pin = 5;       // define push button input pins
+int input5Pin = 5;       
 int input4Pin = 3;
 int input3Pin = 10;
 int input2Pin = 6;
@@ -90,7 +93,7 @@ void setup()
   Serial.println(" ");
 
   BTSerial.begin(57600);  
-  Serial.println("BTserial started at 57600");
+  Serial.println("BTSerial started at 57600");
 
   pinMode(input10Pin, INPUT_PULLUP);
   pinMode(input5Pin, INPUT_PULLUP); // declare push button inputs
@@ -112,6 +115,7 @@ void setup()
  
 void loop()
 {
+
     for(int y=0 ; y<=4 ; y++) {
       for(int x=0 ; x<=2 ; x++){
        // Serial.print(commands[y][x]);
@@ -142,6 +146,7 @@ void checkPush(int buttonX, int buttonY)
       }
       else {
         Serial.println(commands[buttonX][buttonY]);
+        BTSerial.write(commands[buttonX][buttonY]);
         colorWipe(commandColor[buttonX][buttonY], 100);
       }
       delay(100);
@@ -149,13 +154,13 @@ void checkPush(int buttonX, int buttonY)
     else if (macro) {
       macro = false;
       Serial.println(macroCommands[buttonX][buttonY]);
+      BTSerial.write(macroCommands[buttonX][buttonY]);
       colorWipe(macroCommandColor[buttonX][buttonY], 100);
       delay(100);
     }
     
     //Serial.println(digitalRead(pinRead[buttonX][buttonY]));
     //Serial.println(pinRead[buttonX][buttonY]);
-    //BTSerial.write(commands[pinNumber]);
     
   }
   else{
